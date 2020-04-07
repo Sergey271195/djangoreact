@@ -1,0 +1,35 @@
+{
+  "name": "Django",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js",
+    "build": "webpack --mode production ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sergey271195/djangoreact.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sergey271195/djangoreact/issues"
+  },
+  "homepage": "https://github.com/Sergey271195/djangoreact#readme",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
