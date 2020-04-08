@@ -10,16 +10,16 @@ class Header extends Component {
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                     <a className="navbar-brand" href="#">React</a>
                     <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
-                        <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Link</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
-                    </li>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                            </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">News </a>
+                        </li>
                     </ul>
+                        <div className = 'mr-3'>{this.props.logged_in && 'Sergey'}</div>
+                    <button type="button" onClick = {(event) => {this.props.login(event)}} className="btn btn-dark mr-2" style = {{width: '7vw'}} name = {this.props.logged_in ? 'logout': 'login'}>{this.props.logged_in ? 'Log Out': 'Log In'}</button>
+                    <button type="button" onClick = {(event) => {this.props.register(event)}} className="btn btn-dark" style = {{width: '7vw'}} name = 'register'>Register</button>
                 </div>
             </nav>
         )
