@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js",
+    "dev": "webpack --mode development --watch ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js",
     "build": "webpack --mode production ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js" 
   },
   "repository": {

@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import Header from './layout/header';
 import MyInfo, { ToDoItem } from './layout/content';
 import Footer from './layout/footer.js'
 import RegisterForm from './layout/register'
+
 
 class App extends Component {
 
@@ -12,7 +13,11 @@ class App extends Component {
         this.state = {
             logged_in: false,
             register: false,
-            user: null
+            user: {
+                firstname: 'Anonymus',
+                lastname: '',
+                email: ''
+            }
         }
         this.logIn = this.logIn.bind(this)
         this.register = this.register.bind(this)
@@ -39,12 +44,14 @@ class App extends Component {
     }
 
     render() {
-        return (<div>
+        return (   
+        <Fragment>
             <Header logged_in = {this.state.logged_in} login = {this.logIn} register = {this.register}/>
             {this.state.register ? <RegisterForm submit = {this.register}/>: <MyInfo user = {this.state.user}/>}
-            {/* <Footer /> */}
-        </div>)
+        </Fragment>
+        )
     }
 }
+
 
 ReactDOM.render(<App />, document.getElementById('app'))

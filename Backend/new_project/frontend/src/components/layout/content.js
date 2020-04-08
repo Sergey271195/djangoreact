@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import toDoData from './toDoData.js'
+import AddTask from './addtask'
 
 
 export class ToDoItem extends Component {
@@ -14,7 +15,7 @@ export class ToDoItem extends Component {
         
         className = 'input-group border-bottom border-success justify-content-start mt-2 p-2 w-75'>
                 <label className = 'mb-0 checkbox-inline' >
-                    <input type = 'checkbox' id = {this.props.num} onChange = {(event) => {this.props.func2(this.props.num); this.props.func(!this.props.completed, event)}} className = 'form-check-input' checked = {this.props.completed}/>  
+                    <input type = 'checkbox' id = {this.props.num} onChange = {(event) => {this.props.func2(event)}} className = 'form-check-input' />  
                     {this.props.label} 
                 </label>
                     <div className = 'container w-100 my-2 '>
@@ -30,30 +31,30 @@ class MyInfo extends Component  {
         super(props)
         this.state = {
             toDoData: toDoData,
-            num_finished: toDoData.filter(task => task.completed).length,
-            num_unfinished: toDoData.filter(task => !task.completed).length,
-            showCompleted: true
+            num_finished: 0,
+            num_unfinished: 0,
+            showCompleted: true,
+            addTask: false,
+            tasks: null
         }
-
-        this.count_tasks = this.count_tasks.bind(this)
         this.createTaskComponent = this.createTaskComponent.bind(this)
         this.toggleCompleted = this.toggleCompleted.bind(this)
         this.toggleChecked = this.toggleChecked.bind(this)
+        this.addTask = this.addTask.bind(this)
     }
 
-    toggleChecked(id) {
-        this.setState(prevState => {
-            const newData = prevState.toDoData.map(task => {
-                if (task.id === id) {
-                    task.completed = !task.completed
-                }
-                return task
-                })
-            return {
-                toDoData: newData
-            }
-        })
-    } 
+    toggleChecked(event) {
+        console.log(event)
+                    event.target.checked 
+                    ? (this.setState(prevState => {
+                        return{
+                        num_finished: prevState.num_finished + 1,
+                        num_unfinished: prevState.num_unfinished - 1}}))
+                    : (this.setState(prevState => {
+                        return{
+                        num_finished: prevState.num_finished - 1,
+                        num_unfinished: prevState.num_unfinished + 1}}))
+                        }
 
     toggleCompleted() {
         this.setState(prevState => {
@@ -63,53 +64,45 @@ class MyInfo extends Component  {
         })
     }
 
-    count_tasks(value, event) {
-        if (value) {
-            this.setState(prevState => {
-                return {
-                num_finished: prevState.num_finished + 1,
-                num_unfinished: prevState.num_unfinished - 1
-                }
-            })
-        }
-        else {
-            this.setState(prevState => {
-                return {
-                    num_finished: prevState.num_finished - 1,
-                    num_unfinished: prevState.num_unfinished + 1
-                    }
-            })
-        }
+    addTask(state) {
+        this.setState(prevState => {return {addTask: !prevState.addTask}})
+        const Tasks = this.state.tasks
+        const checked = this.toggleChecked
+        const show = this.state.showCompleted
+        Tasks.push(<ToDoItem key = {Tasks.length+1} num = {Tasks.length+1} label={state.title} func2 = {checked} main = {state.content} completed = {false}  showCompleted = {show}/>)
+        this.setState({tasks: Tasks})
     }
 
     createTaskComponent(data) {
-        const count = this.count_tasks
         const checked = this.toggleChecked
         const show = this.state.showCompleted
-        const tasks = data.filter(task => task.label).map(function(task) {
-            return (<ToDoItem key = {task.id} num = {task.id} label={task.label} func2 = {checked} main = {task.main} completed = {task.completed} func = {count} showCompleted = {show}/>)
+        const alltasks = data.filter(task => task.label).map(function(task) {
+            return (<ToDoItem key = {task.id} num = {task.id} label={task.label} func2 = {checked} main = {task.main} completed = {false}  showCompleted = {show}/>)
     })
-        return tasks
+        this.setState(prevState => {return {
+            tasks: alltasks,
+            num_unfinished: alltasks.length
+        }})
+        return this.state.tasks
     }
     
 
     userInfo() {
-        const firstname = 'Sergey'
-        const lastname = 'Makovkin'
         let user = {
-        imgSrc: 'https://avatars.mds.yandex.net/get-pdb/2836723/a1091df8-4b0f-4b8e-8b7a-7ec9122946e1/s1200?webp=false',
-        firstname: firstname,
-        lastname: lastname}
+        imgSrc: 'https://avatars.mds.yandex.net/get-pdb/2836723/a1091df8-4b0f-4b8e-8b7a-7ec9122946e1/s1200?webp=false'}
         return user
-    } 
+    }
+
+    componentDidMount() {
+        this.createTaskComponent(this.state.toDoData)
+    }
 
     render() {
-
-        const TaskComponents = this.createTaskComponent(this.state.toDoData)
 
         const userinfo = this.userInfo()
         return(
         <div className = 'container-fluid'>
+            {this.state.addTask ? <AddTask  submit = {this.addTask}/> : 
             <div className = 'row justify-content-start'>
             <div className = 'col-3 mx-3'>
             <img src = {userinfo.imgSrc} className = 'w-50 rounded-circle' />
@@ -126,7 +119,7 @@ class MyInfo extends Component  {
                 <p>Unfinished tasks: {this.state.num_unfinished}</p>
             </div>
 
-                <button type="button" onClick = {() => {console.log(this.userInfo())}} className="btn btn-success mr-2">Add Task</button>
+                <button type="button" onClick = {() => {this.setState(prevState => {return {addTask: !prevState.addTask}})}} className="btn btn-success mr-2">Add Task</button>
                 <button type="button" className="btn btn-success" onClick = {() => {this.toggleCompleted()}}>{this.state.showCompleted ? 'Hide' : 'Show'} done</button>
 
             </div>
@@ -135,11 +128,11 @@ class MyInfo extends Component  {
             <h1 className ='my-5'>To-do list</h1>
                 <div className = ' d-flex flex-column align-items-center border border-success mt-2 mb-2 py-4 w-100'>
 
-                    {TaskComponents}
+                    {this.state.tasks}
 
                 </div>
             </div>
-            </div>
+            </div>}
         </div>)
     }
 }
