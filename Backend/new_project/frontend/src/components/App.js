@@ -4,12 +4,17 @@ import Header from './layout/header';
 import MyInfo, { ToDoItem } from './layout/content';
 import Footer from './layout/footer.js'
 import RegisterForm from './layout/register'
+import { Provider } from 'react-redux'
+import store from '../store'
+import ToDoList from './layout/todolist'
+import {Switch, HashRouter as Router, Route, Link} from 'react-router-dom'
 
 
 class App extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
+        console.log(props)
         this.state = {
             logged_in: false,
             register: false,
@@ -43,15 +48,34 @@ class App extends Component {
         })
     }
 
+
+    componentDidMount() {
+        fetch('/api/')
+            .then(response => response.json())
+                .then(data => {this.setState({tasks_data: data})})       
+    }
+
     render() {
-        return (   
+        return (
+            <div>
+            <Provider store = {store}>
         <Fragment>
-            <Header logged_in = {this.state.logged_in} login = {this.logIn} register = {this.register}/>
-            {this.state.register ? <RegisterForm submit = {this.register}/>: <MyInfo user = {this.state.user}/>}
+            <Router>
+                <Switch>
+                    <Route exact path = '/' component = {ToDoList}/>
+
+                </Switch>
+            </Router>
         </Fragment>
+        </Provider>
+        </div>     
         )
     }
 }
 
 
 ReactDOM.render(<App />, document.getElementById('app'))
+
+{/* <Header logged_in = {this.state.logged_in} login = {this.logIn} register = {this.register}/>
+            {this.state.register ? <RegisterForm submit = {this.register}/>: <MyInfo user = {this.state.user}/>}
+            <ToDoList data = {this.state.tasks_data} /> */}

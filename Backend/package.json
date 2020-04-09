@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development --watch ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js",
-    "build": "webpack --mode production ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js" 
+    "build": "webpack --mode production ./new_project/frontend/src/index.js --output ./new_project/frontend/static/frontend/main.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +28,14 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
   }
 }

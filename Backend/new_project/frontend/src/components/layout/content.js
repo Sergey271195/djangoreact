@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import toDoData from './toDoData.js'
 import AddTask from './addtask'
+import axios from 'axios'
 
 
 export class ToDoItem extends Component {
@@ -30,7 +30,7 @@ class MyInfo extends Component  {
     constructor(props) {
         super(props)
         this.state = {
-            toDoData: toDoData,
+            toDoData: [],
             num_finished: 0,
             num_unfinished: 0,
             showCompleted: true,
@@ -76,8 +76,8 @@ class MyInfo extends Component  {
     createTaskComponent(data) {
         const checked = this.toggleChecked
         const show = this.state.showCompleted
-        const alltasks = data.filter(task => task.label).map(function(task) {
-            return (<ToDoItem key = {task.id} num = {task.id} label={task.label} func2 = {checked} main = {task.main} completed = {false}  showCompleted = {show}/>)
+        const alltasks = data.map(function(task) {
+            return (<ToDoItem key = {data.indexOf(task)} num = {task.id} label={task.label} func2 = {checked} main = {task.main} completed = {false}  showCompleted = {show}/>)
     })
         this.setState(prevState => {return {
             tasks: alltasks,
@@ -94,11 +94,13 @@ class MyInfo extends Component  {
     }
 
     componentDidMount() {
-        this.createTaskComponent(this.state.toDoData)
+        fetch('http://127.0.0.1:8000/api/')
+            .then(response => response.json())
+                .then(data => {console.log(data); this.setState({toDoData: data}); this.createTaskComponent(data)} )
+            
     }
 
     render() {
-
         const userinfo = this.userInfo()
         return(
         <div className = 'container-fluid'>
