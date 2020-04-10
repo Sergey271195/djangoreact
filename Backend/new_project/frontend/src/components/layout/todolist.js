@@ -1,18 +1,17 @@
 import React, { Component, Fragment } from 'react'
+import { Link } from 'react-router-dom'
 
 class Task extends Component {
     constructor(props) {
         super(props)
-        console.log(props)
     }
 
     render() {
         return (
-        <div  
-            className = 'input-group border-bottom border-success justify-content-start mt-2 p-2 w-75'>
+        <div className = 'input-group border-bottom border-success justify-content-start my-3 p-2'>
                 <label className = 'mb-0 checkbox-inline h3 ml-5' >
                     <input type = 'checkbox' id = {this.props.id} className = 'form-check-input'/>  
-                    {this.props.title} 
+                    <Link to = {`/${this.props.id+1}`}>{this.props.title}</Link> 
                 </label>
                     <div className = 'container w-100 my-2 '>
                             {this.props.content}

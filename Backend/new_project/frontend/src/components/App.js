@@ -4,17 +4,18 @@ import Header from './layout/header';
 import MyInfo, { ToDoItem } from './layout/content';
 import Footer from './layout/footer.js'
 import RegisterForm from './layout/register'
+import LoginForm from './layout/login'
 import { Provider } from 'react-redux'
 import store from '../store'
 import ToDoList from './layout/todolist'
 import {Switch, HashRouter as Router, Route, Link} from 'react-router-dom'
+import DetailedView from './layout/detailedview'
 
 
 class App extends Component {
 
     constructor(props) {
         super(props)
-        console.log(props)
         this.state = {
             logged_in: false,
             register: false,
@@ -57,18 +58,19 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-            <Provider store = {store}>
-        <Fragment>
-            <Router>
-                <Switch>
-                    <Route exact path = '/' component = {ToDoList}/>
-
-                </Switch>
-            </Router>
-        </Fragment>
-        </Provider>
-        </div>     
+        <Provider store = {store}>
+            <Fragment>
+                <Router>
+                    <Header />
+                    <Switch>
+                        <Route exact path = '/' component = {ToDoList}/>
+                        <Route exact path = '/register' component = {RegisterForm}/>
+                        <Route exact path = '/login' component = {LoginForm}/>
+                        <Route exact path = '/:id' component = {DetailedView}/>
+                    </Switch>
+                </Router>
+            </Fragment>
+        </Provider>  
         )
     }
 }

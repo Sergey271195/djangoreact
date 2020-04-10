@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 class Footer extends Component {
     render() {
+        //console.log(this.props.match.params.id)
         let style = {
             position: 'absolute',
             bottom: '0',
